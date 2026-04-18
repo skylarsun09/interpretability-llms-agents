@@ -4,11 +4,19 @@ Returns None when LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY are not set or
 langfuse is not installed, so every caller can guard with ``if client:``.
 """
 
+import logging
 import os
 from contextlib import suppress
 
 from dotenv import load_dotenv
 from langfuse import Langfuse
+
+
+# The openinference Google GenAI instrumentor passes structured Content/Part
+# objects as OTel span attributes, which opentelemetry rejects with a noisy
+# WARNING. These are cosmetic – they don't affect tracing correctness.
+logging.getLogger("opentelemetry.attributes").setLevel(logging.ERROR)
+logging.getLogger("openinference.instrumentation.google_genai._request_attributes_extractor").setLevel(logging.CRITICAL)
 
 
 try:

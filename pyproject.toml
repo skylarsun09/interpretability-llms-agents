@@ -93,6 +93,10 @@ members = [
 
 [tool.uv]
 default-groups = ["dev"]
+constraint-dependencies = [
+    "cryptography>=46.0.6",  # CVE-2026-34073: DNS name constraint bypass
+    "requests>=2.33.0",      # CVE-2026-25645: predictable temp file extraction path
+]
 conflicts = [
   [
     {group = "xai-refresher"},
